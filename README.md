@@ -1,5 +1,7 @@
 # Global MeterRegistry vs. instance MeterRegistry
 
+Reproducer for https://github.com/spring-projects/spring-boot/issues/25610
+
 1. Start the application
 1. Run `curl -s localhost:8080/actuator/prometheus | grep ^bug`
 
@@ -21,4 +23,4 @@ bug_static_total{tag="0",} 10.0
 
 The code which has created these metrics is in `Runner`. The tags are attached via a `MeterFilter`, see `CustomMeterFilter`.
 
-I expected no difference in using `Metrics.counter("bug.static").increment()` vs. `meterRegistry.counter("bug.instance").increment();`, but the metrics registered via `Metrics` has missing tags.
+I expected no difference in using `Metrics.counter("bug.static").increment()` vs. `meterRegistry.counter("bug.instance").increment();`, but the metrics registered via `Metrics` have missing tags.
